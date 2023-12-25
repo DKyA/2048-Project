@@ -2,17 +2,22 @@
 
 	position: relative;
 	background-color: #333;
-	width: 408px;
-	height: 408px;
+	width: 300px;
+	height: 300px;
 	border-radius: 8px;
 	padding: 4px;
+
+	@media (min-width: 768px) {
+		width: 408px;
+		height: 408px;
+	}
 
 }
 
 .tile {
 
-	width: 100px;
-	height: 100px;
+	width: 75px;
+	height: 75px;
 	padding: 8px;
 	border-radius: 8px;
 	display: flex;
@@ -22,6 +27,11 @@
 	position: absolute;
 	opacity: 0;
 	transition: .2s ease;
+
+	@media (min-width: 768px) {
+		width: 100px;
+		height: 100px;
+	}
 
 	&[destroy="true"] {
 		opacity: 0;
@@ -52,8 +62,15 @@
 
 			&[position="#{$i}-#{$j}"] {
 
-				top: #{100 * $i}px;
-				left: #{100 * $j}px;
+				top: #{75 * $i}px;
+				left: #{75 * $j}px;
+
+				@media (min-width: 768px) {
+
+					top: #{100 * $i}px;
+					left: #{100 * $j}px;
+
+				}
 
 			}
 		}
