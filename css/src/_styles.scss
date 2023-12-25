@@ -1,0 +1,114 @@
+* {
+
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+	color: white;
+
+}
+
+html {
+
+	background-color: black;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+body {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+}
+
+.controls {
+
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 20%;
+	background-color: #111;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 16px;
+
+	&__info {
+
+		width: 100%;
+
+	}
+
+}
+
+
+.inforow {
+
+	width: 100%;
+	margin: 8px 0;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+}
+
+.central {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.endgame {
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 8px;
+	z-index: 10;
+	opacity: 0;
+	visibility: hidden;
+	transition: 1s ease-in-out;
+	font-weight: bold;
+
+	&--visible {
+
+		visibility: visible;
+		opacity: 1;
+
+	}
+
+}
+
+.button {
+
+	border: 2px solid white;
+	border-radius: 8px;
+	outline: 0;
+	background-color: transparent;
+	padding: 8px 10px;
+	margin-top: 10px;
+	cursor: pointer;
+	transition: .3s ease-in-out;
+
+	&:hover {
+
+		background-color: #fff;
+		color: black;
+
+	}
+
+}

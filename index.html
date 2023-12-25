@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Robo48</title>
+	<link rel="stylesheet" href="./css/main.min.css">
+	<meta name="keywords" content="">
+</head>
+<body>
+
+	<main class="central" js-holder /> </main>
+	<aside class="controls">
+		<h4>Game info</h4>
+		<div class="controls__info">
+
+			<div class="inforow">
+				<div class="inforow__box">Score</div>
+				<div class="inforow__box" score></div>
+			</div>
+
+			<div class="inforow">
+				<div class="inforow__box">Best</div>
+				<div class="inforow__box" best></div>
+			</div>
+
+		</div>
+
+		<button class="button" js-restart>Restart</button>
+	</aside>
+
+	<div class="endgame" js-endgame>
+		<h2 js-title></h2>
+		<p js-text></p>
+		<button class="button" js-restart>Restart</button>
+	</div>
+
+	<script type="module" src="./js/main.js"></script>
+</body>
+</html>
