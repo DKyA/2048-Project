@@ -35,17 +35,17 @@ const humanGame = meta => {
 
 			if (gameState.status === 100) {
 				Environment.score = meta.game.board.score;
-	
+
 				if (meta.game.board.score > meta.maxScore) {
 					meta.maxScore = meta.game.board.score
 					Environment.pb = meta.maxScore
 				}
-	
+
 				if (!meta.game.board.spawnTile()) {
 					Environment.endgame(meta.game)
 					gameState.status = 600
 				}
-	
+
 			}
 
 		return
@@ -62,13 +62,6 @@ const humanGame = meta => {
 		}
 
 	}));
-
-
-	// // Control Buttons:
-	// Environment.restart.forEach(btn => btn.addEventListener("click", () => {
-
-
-	// }));
 
 }
 
