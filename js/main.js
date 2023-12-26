@@ -5,6 +5,7 @@ export const params = {
 	meta: [
 		{
 			human: true,
+			visible: true,
 			maxScore: 0,
 		},
 	],

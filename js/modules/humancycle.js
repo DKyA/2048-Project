@@ -1,11 +1,9 @@
-import { Board } from "./board.js"
-import { Game } from "./game.js"
 import { Environment } from "./environment.js";
-import { params } from "../main.js";
+import { initLiveGame } from "./helpers.js";
 
 export const humanGame = meta => {
 
-	meta = initPlayerGame(meta)
+	meta = initLiveGame(meta)
 	const events = ['click','keydown']
 
 	// Main Game Loop
@@ -48,24 +46,10 @@ export const humanGame = meta => {
 			meta.board.cleanup()
 			Environment.hideTitleScreen()
 			Environment.score = 0;
-			meta = initPlayerGame(meta)
+			meta = initLiveGame(meta)
 
 		}
 
 	}));
 
 }
-
-
-const initPlayerGame = meta => {
-
-	meta.board = new Board(true, params.frame);
-	meta.board.init();
-	meta.board.place();
-	meta.game = new Game(meta.board);
-	meta.terminated = false;
-
-	return meta;
-
-}
-
