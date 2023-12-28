@@ -14,6 +14,7 @@ export class Board {
 		);
 
 		this.tiles = [];
+		this.freePositions = [];
 		this.world = world;
 		this.score = 0;
 
@@ -41,15 +42,15 @@ export class Board {
 
 		let coords = [];
 
-		const freePositions = []
+		this.freePositions = []
 		for (let i = 0; i < this.positions.length; i++) {
 			for (let j = 0; j < this.positions.length; j++) {
 				if (this.positions[i][j] !== 0) continue
-				freePositions.push([i, j])
+				this.freePositions.push([i, j])
 			}
 		}
 
-		coords = freePositions[Math.floor(Math.random() * freePositions.length)]
+		coords = this.freePositions[Math.floor(Math.random() * this.freePositions.length)]
 
 		const value = spawnProbabilities();
 
@@ -67,7 +68,7 @@ export class Board {
 		this.positions[coords[0]][coords[1]] = new_tile;
 
 		// Now, after filling in the spot, it is 0...
-		if (freePositions.length === 1) {
+		if (this.freePositions.length === 1) {
 			// Can I get out?
 			return !this.checkEndgame()
 		}
