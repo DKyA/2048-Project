@@ -149,3 +149,24 @@ body {
 	}
 
 }
+
+.table {
+
+	margin-top: 12px;
+	display: grid;
+	grid-template-columns: repeat(var(--cols), auto);
+
+	&__td {
+
+		text-align: center;
+		margin-top: 10px;
+
+		&--headline {
+
+			font-weight: bold;
+
+		}
+
+	}
+
+}
