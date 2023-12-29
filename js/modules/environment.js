@@ -17,7 +17,7 @@ class GetEnvironment {
 
 		// If I have just one robo game, make it behave
 		// Like a human game.
-		if (noOfGames === 1) return this.initCPDashboard();
+		if (noOfGames === 1) return this.initHumanDashboard();
 
 	}
 

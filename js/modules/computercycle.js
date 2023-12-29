@@ -5,7 +5,7 @@ import { Model } from "./model.js"
 
 export const computerGame = () => {
 
-	Environment.initCPDashboard()
+	Environment.initCPDashboard(params.meta.length)
 
 	for (let i = 0; i < params.meta.length; i++) {
 		// creating an alias.
