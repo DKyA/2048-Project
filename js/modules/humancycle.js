@@ -26,10 +26,6 @@ export const humanGame = meta => {
 
 		if (gameState) {
 
-			Environment.endgame(meta.game)
-			gameState.status = 600
-			return // TEMPORARY 3 LINES
-
 			if (gameState.status === 100) {
 				Environment.score = meta.game.board.score;
 
