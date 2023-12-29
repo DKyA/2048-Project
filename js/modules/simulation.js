@@ -1,6 +1,6 @@
 
 import { params } from "../main.js";
-import { computerCycle } from "./computercycle.js";
+import { computerGame } from "./computercycle.js";
 import { humanGame } from "./humancycle.js";
 
 
@@ -10,6 +10,6 @@ export const beginSimulation = () => {
 		return humanGame(params.meta[0]);
 	}
 
-	computerCycle()
+	computerGame()
 
 }

@@ -3,7 +3,7 @@ import { initLiveGame, initMemoryGame } from "./helpers.js"
 import { Environment } from "./environment.js"
 import { Model } from "./model.js"
 
-export const computerCycle = () => {
+export const computerGame = () => {
 
 	Environment.initCPDashboard()
 
