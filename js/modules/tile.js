@@ -27,7 +27,9 @@ export class Tile {
 
 		this.coords = newCoords;
 		this.val = newValue;
-		this.setAttributes()
+		if (this.placed) {
+			this.setAttributes()
+		}
 
 	}
 
@@ -43,12 +45,14 @@ export class Tile {
 
 	selfDestroy(boardHTML) {
 
-		this.html.setAttribute("destroy", "true")
+		if (this.placed) {
+			this.html.setAttribute("destroy", "true")
 
-		if (boardHTML) {
-			setTimeout(() => {
-				boardHTML.removeChild(this.html)
-			}, 200);
+			if (boardHTML) {
+				setTimeout(() => {
+					boardHTML.removeChild(this.html)
+				}, 200);
+			}
 		}
 		return {
 			coords: this.coords,
