@@ -121,5 +121,19 @@ export class Board {
 		this.world.removeChild(this.boardElement)
 	}
 
+	get normalizedPositions() {
+
+		const res = []
+
+		for (const column of this.positions) {
+			for (const item of column) {
+				res.push(item === 0 ? 0 : item.val)
+			}
+		}
+
+		return res
+
+	}
+
 }
 
