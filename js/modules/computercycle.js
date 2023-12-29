@@ -1,38 +1,49 @@
 import { params } from "../main.js"
-import { initLiveGame } from "./helpers.js"
+import { initLiveGame, initMemoryGame } from "./helpers.js"
 import { Environment } from "./environment.js"
+import { Model } from "./model.js"
 
 export const computerCycle = () => {
 
 	for (let i = 0; i < params.meta.length; i++) {
 		// creating an alias.
 		let meta = params.meta[i]
+
 		if (meta.visible) {
 			meta = initLiveGame(meta)
+		} else {
+			meta = initMemoryGame(meta)
+		}
 
-			let isDone = false;
+		let isDone = false;
 
+		const model = new Model();
+
+		// If visible, add a 400ms delay in order to be watchable
+		if (meta.visible) {
 			const gameLoop = setInterval(() => {
-
-				[meta, isDone] = computerMove(meta)
-
+				[meta, isDone] = computerMove(meta, model)
 				if (isDone) {
 					clearInterval(gameLoop)
 				}
+			}, 400);
+		}
 
-			}, 500);
-
+		// Let the game just play from memory
+		else {
+			while (!isDone) {
+				[meta, isDone] = computerMove(meta, model)
+			}
 		}
 
 	}
 
 }
 
-const computerMove = meta => {
+const computerMove = (meta, model) => {
 
-	console.log("Hi")
+	const direction = model.apply(meta.board)
 
-	const direction = Math.floor(Math.random() * 4);
 	const pool = ["up", "down", "left", "right"];
 
 	const gameState = meta.game[pool[direction]]()
