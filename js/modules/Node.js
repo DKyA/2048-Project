@@ -3,32 +3,37 @@ import { normRand } from "./helpers.js"
 
 export class Node {
 
-	constructor(NextLayerBreadth, ReLULeak = 0.01) {
+	constructor(nextLayer = null, activation = "ReLU", thisLayerBreadth, ReLULeak = 0.01) {
 
 		// All prev nodes will have a link to me, will feed in their values here
 		// Setter is defined
-		this.preceedingValues = []
-		this.connectionWeights = []
+		this.preceedingValues = [];
+		this.connectionWeights = [];
 
-		
-		this.NextLayerBreadth = NextLayerBreadth;
-		this.ReLULeak = ReLULeak
+		this.activation = activation;
 
-		this.bias = normRand()
+		this.thisLayerBreadth = thisLayerBreadth;
+		this.nextLayer = nextLayer;
+		this.ReLULeak = ReLULeak;
 
-		// Nodes for forward- and back-propagation
-		this.next = null;
+		this.bias = normRand(0.1, 0.01);
+
 	}
 
-	activateNode(activation = "ReLU") {
+	activateNode() {
 
-		// One-time init. No. of nodes is not dynamic
-		if (this.preceedingValues.length !== this.connectionWeights) this.initWeights(activation);
+		const weightedSum = this.preceedingValues.reduce((total, x, i) => total + this.connectionWeights[i] * x, 0) || 0
 
-		const weightedSum = this.preceedingValues.reduce((total, x, i) => total += this.connectionWeights[i] * x)
+		if (this.activation === "softmax") {
+			this.val = weightedSum
+			return;
+			// No activation. Softmax will be executed on the layer level.
+			// Also, softmax means that this node is in the final layer
+			// No activation needed.
+		}
 
 		// Activation function:
-		if (activation === "sigmoid") {
+		if (this.activation === "sigmoid") {
 			// For endpoints:
 			this.val = 1 / (1 + Math.pow(Math.E, -weightedSum))
 		}
@@ -41,25 +46,36 @@ export class Node {
 		this.preceedingValues = [];
 
 		// Give my value to the next layer
-		if (this.next) {
-			this.next.forEach(node => node.propagateValue(this.val))
+		if (this.nextLayer) {
+			this.nextLayer.forEach(node => node.propagateValue = this.val)
 		}
 
 	}
 
-	initWeights(activation) {
+	set initWeights(prevLayerBreadth) {
 
-		this.connectionWeights = this.preceedingValues.map(() => {
-			if (activation === "ReLU") {
-				return normRand(0, Math.sqrt(2 / this.preceedingValues.length))
+		this.prevLayerBreadth = prevLayerBreadth;
+
+		for (let i = 0; i < this.prevLayerBreadth; i ++) {
+			if (this.activation === "ReLU") {
+				this.connectionWeights.push(normRand(0, Math.sqrt(2 / prevLayerBreadth)))
+				continue;
 			}
-			return normRand(0, Math.sqrt(2 / (this.NextLayerBreadth + this.preceedingValues.length)))
-		})
+			// sigmoid and softmax
+
+			const std = Math.sqrt(2 / (this.nextLayer ? this.nextLayer.length : this.thisLayerBreadth + prevLayerBreadth || this.thisLayerBreadth))
+			this.connectionWeights.push(normRand(0, std))
+		}
 
 	}
 
 	set propagateValue(x) {
 		this.preceedingValues.push(x)
+	}
+
+	set input(x) {
+		this.preceedingValues = [x]
+		this.activateNode()
 	}
 
 }
