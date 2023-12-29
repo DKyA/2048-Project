@@ -145,7 +145,7 @@ export class Board {
 			}
 		}
 
-		return tile.val
+		return res
 
 	}
 
