@@ -135,5 +135,19 @@ export class Board {
 
 	}
 
+	get maxTile () {
+
+		let res = 0;
+
+		for (const tile of this.tiles) {
+			if (tile.val > res) {
+				res = tile.val
+			}
+		}
+
+		return tile.val
+
+	}
+
 }
 
