@@ -1,7 +1,11 @@
 import { Environment } from "./environment.js";
 import { initLiveGame } from "./helpers.js";
 
+export const controls = ["up", "left", "down", "right"]
+
 export const humanGame = meta => {
+
+	Environment.initHumanDashboard();
 
 	meta = initLiveGame(meta)
 	const events = ['click','keydown']
@@ -12,7 +16,7 @@ export const humanGame = meta => {
 		let gameState;
 		if (evt === "keydown") {
 			const keycode = e.key.replace("Arrow", "").toLowerCase()
-			if (["up", "down", "left", "right"].includes(keycode)) {
+			if (controls.includes(keycode)) {
 				gameState = meta.game[keycode]()
 			} else return;
 		}
@@ -21,6 +25,10 @@ export const humanGame = meta => {
 		}
 
 		if (gameState) {
+
+			Environment.endgame(meta.game)
+			gameState.status = 600
+			return // TEMPORARY 3 LINES
 
 			if (gameState.status === 100) {
 				Environment.score = meta.game.board.score;

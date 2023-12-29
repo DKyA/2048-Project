@@ -7,7 +7,7 @@ export const params = {
 			human: true,
 			visible: true,
 			maxScore: 0,
-		},
+		}
 	],
 
 	frame: document.querySelector("[js-holder]")

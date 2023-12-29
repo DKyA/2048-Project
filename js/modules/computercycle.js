@@ -5,6 +5,8 @@ import { Model } from "./model.js"
 
 export const computerCycle = () => {
 
+	Environment.initCPDashboard()
+
 	for (let i = 0; i < params.meta.length; i++) {
 		// creating an alias.
 		let meta = params.meta[i]
@@ -26,6 +28,8 @@ export const computerCycle = () => {
 				if (isDone) {
 					clearInterval(gameLoop)
 				}
+				Environment.score = meta.board.score
+				Environment.pb = meta.board.score
 			}, 400);
 		}
 
@@ -33,6 +37,7 @@ export const computerCycle = () => {
 		else {
 			while (!isDone) {
 				[meta, isDone] = computerMove(meta, model)
+				Environment.pb = meta.board.score
 			}
 		}
 
@@ -53,19 +58,14 @@ const computerMove = (meta, model) => {
 	}
 
 	if (gameState.status === 100) {
-
-		Environment.score = meta.game.board.score;
-
+// Handle environment!!!
 		if (meta.game.board.score > meta.maxScore) {
 			meta.maxScore = meta.game.board.score
-			Environment.pb = meta.maxScore
 		}
 
 		if (!meta.game.board.spawnTile()) {
-			Environment.endgame(meta.game)
 			gameState.status = 600
 			return [meta, true]
-
 		}
 
 	}

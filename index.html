@@ -10,37 +10,11 @@
 <body>
 
 	<main class="central" js-holder /> </main>
-	<aside class="controls">
+	<aside class="controls" js-panel>
 		<h4>Game info</h4>
-		<div class="controls__info">
-
-			<div class="inforow">
-				<div class="inforow__box">Score</div>
-				<div class="inforow__box" score></div>
-			</div>
-
-			<div class="inforow">
-				<div class="inforow__box">Best</div>
-				<div class="inforow__box" best></div>
-			</div>
-
+		<div class="controls__info" js-text-container>
 		</div>
-
-		<button class="button" js-restart>Restart</button>
 	</aside>
-
-	<div class="endgame" js-endgame>
-		<h2 js-title></h2>
-		<p js-text></p>
-		<button class="button" js-restart>Restart</button>
-	</div>
-
-	<div class="mobiles">
-		<button class="button" js-mobile-controls="up">U</button>
-		<button class="button" js-mobile-controls="left">L</button>
-		<button class="button" js-mobile-controls="down">D</button>
-		<button class="button" js-mobile-controls="right">R</button>
-	</div>
 
 	<script type="module" src="./js/main.js"></script>
 </body>
