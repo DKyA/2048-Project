@@ -27,12 +27,7 @@ export const humanGame = meta => {
 		if (gameState) {
 
 			if (gameState.status === 100) {
-				Environment.score = meta.game.board.score;
-
-				if (meta.game.board.score > meta.maxScore) {
-					meta.maxScore = meta.game.board.score
-					Environment.pb = meta.maxScore
-				}
+				Environment.setScore(meta.game.board.score)
 
 				if (!meta.game.board.spawnTile()) {
 					Environment.endgame(meta.game)

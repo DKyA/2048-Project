@@ -10,6 +10,7 @@ export const computerGame = () => {
 	for (let i = 0; i < params.meta.length; i++) {
 		// creating an alias.
 		let meta = params.meta[i]
+		meta.i = i;
 
 		if (meta.visible) {
 			meta = initLiveGame(meta)
@@ -25,11 +26,11 @@ export const computerGame = () => {
 		if (meta.visible) {
 			const gameLoop = setInterval(() => {
 				[meta, isDone] = computerMove(meta, model)
+				Environment.score = meta.board.score
+				Environment.pb = meta.board.score
 				if (isDone) {
 					clearInterval(gameLoop)
 				}
-				Environment.score = meta.board.score
-				Environment.pb = meta.board.score
 			}, 400);
 		}
 
@@ -39,6 +40,10 @@ export const computerGame = () => {
 				[meta, isDone] = computerMove(meta, model)
 				Environment.pb = meta.board.score
 			}
+
+			// Log tgat we have reached an end
+			console.log("Game stopped")
+			Environment.stats()
 		}
 
 	}
@@ -58,7 +63,8 @@ const computerMove = (meta, model) => {
 	}
 
 	if (gameState.status === 100) {
-// Handle environment!!!
+		// Handle environment!!!
+		Environment.setScore(meta.game.board.score, meta.board.maxTile, meta.i)
 		if (meta.game.board.score > meta.maxScore) {
 			meta.maxScore = meta.game.board.score
 		}
