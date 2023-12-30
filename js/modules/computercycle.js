@@ -10,6 +10,25 @@ export const computerGame = async () => {
 	let models = new Array(params.meta.length).fill(new Model());
 
 	models = simulateGeneration(models)
+	reinforcementLearning(models)
+
+}
+
+
+const reinforcementLearning = models => {
+
+	// creating a copy to play around with...
+	const metas = params.meta.sort((a, b) => b.finalScore - a.finalScore)
+
+	metas.forEach(meta => meta.varianceCoefficient = (metas[0].finalScore / meta.finalScore) - 1)
+
+	// Time to update models.
+	metas.forEach(meta => {
+		const model = models[meta.i]
+		model.selfUpdate(meta.varianceCoefficient)
+		// traverse & update. EX is oldVal, variance is sigma. NormRand employment
+		
+	})
 
 }
 
@@ -20,6 +39,8 @@ const simulateGeneration = (models) => {
 		// creating an alias.
 		let meta = params.meta[i]
 		meta.i = i;
+		meta.maxTile = 0;
+		meta.finalScore = 0;
 
 		if (meta.visible) {
 			meta = initLiveGame(meta)
@@ -62,6 +83,14 @@ const playGame = (model, meta) => {
 
 		// Log that we have reached an end
 		Environment.stats()
+
+		// Calculate final score
+		const scoreNorm = Math.log(meta.maxScore + 1)
+		const maxTileNorm = Math.log2(meta.maxTile + 1)
+		const weights = [.8, .2]
+		const finalScore = (weights[0] * scoreNorm + weights[1] * maxTileNorm) / 2
+		meta.finalScore = finalScore
+
 	}
 
 	return [model, meta]
@@ -71,6 +100,7 @@ const playGame = (model, meta) => {
 
 const computerMove = (meta, model) => {
 
+	// AI's idea of a move:
 	const direction = model.apply(meta.board)
 
 	const pool = ["up", "down", "left", "right"];
@@ -86,6 +116,9 @@ const computerMove = (meta, model) => {
 		Environment.setScore(meta.game.board.score, meta.board.maxTile, meta.i)
 		if (meta.game.board.score > meta.maxScore) {
 			meta.maxScore = meta.game.board.score
+		}
+		if (meta.game.board.maxTile > meta.maxTile) {
+			meta.maxTile = meta.game.board.maxTile
 		}
 
 		if (!meta.game.board.spawnTile()) {

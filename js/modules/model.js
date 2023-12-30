@@ -51,7 +51,7 @@ export class Model {
 
 		const boardState = board.normalizedPositions;
 		for (let i = 0; i < boardState.length; i++) {
-			this.layers[0].nodes[i].input = boardState[i]
+			this.layers[0].nodes[i].input = Math.log2(boardState[i])
 		}
 		this.layers[0].lastNode.input = board.freePositions.length
 
@@ -64,6 +64,11 @@ export class Model {
 
 		return outputId
 
+	}
+
+	selfUpdate(variance) {
+		if (variance === 0) return;
+		console.log("Hello.")
 	}
 
 	get lastLayer() {
