@@ -41,7 +41,7 @@ class GetEnvironment {
 			table.appendChild(th)
 		}
 
-		for (let i = 0; i < noOfGames + 1; i++) {
+		for (let i = 0; i < ((noOfGames < 20) ? noOfGames: 20) + 1; i++) {
 
 			for (let j = 0; j < this.accessors.columns.length; j++) {
 				const td = document.createElement("p")

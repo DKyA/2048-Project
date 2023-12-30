@@ -3,9 +3,18 @@ import { initLiveGame, initMemoryGame } from "./helpers.js"
 import { Environment } from "./environment.js"
 import { Model } from "./model.js"
 
-export const computerGame = () => {
+export const computerGame = async () => {
 
 	Environment.initCPDashboard(params.meta.length)
+
+	let models = new Array(params.meta.length).fill(new Model());
+
+	models = simulateGeneration(models)
+
+}
+
+
+const simulateGeneration = (models) => {
 
 	for (let i = 0; i < params.meta.length; i++) {
 		// creating an alias.
@@ -18,37 +27,47 @@ export const computerGame = () => {
 			meta = initMemoryGame(meta)
 		}
 
-		let isDone = false;
-
-		const model = new Model();
-
-		// If visible, add a 400ms delay in order to be watchable
-		if (meta.visible) {
-			const gameLoop = setInterval(() => {
-				[meta, isDone] = computerMove(meta, model)
-				Environment.score = meta.board.score
-				Environment.pb = meta.board.score
-				if (isDone) {
-					clearInterval(gameLoop)
-				}
-			}, 400);
-		}
-
-		// Let the game just play from memory
-		else {
-			while (!isDone) {
-				[meta, isDone] = computerMove(meta, model)
-				Environment.pb = meta.board.score
-			}
-
-			// Log tgat we have reached an end
-			console.log("Game stopped")
-			Environment.stats()
-		}
-
+		// reintegrate for global usage
+		[models[i], meta] = playGame(models[i], meta)
+		params.meta[i] = meta
 	}
 
+	return models;
+
 }
+
+
+const playGame = (model, meta) => {
+
+	let isDone = false;
+
+	// If visible, add a 400ms delay in order to be watchable
+	if (meta.visible) {
+		const gameLoop = setInterval(() => {
+			[meta, isDone] = computerMove(meta, model)
+			Environment.score = meta.board.score
+			Environment.pb = meta.board.score
+			if (isDone) {
+				clearInterval(gameLoop)
+			}
+		}, 400);
+	}
+
+	// Let the game just play from memory
+	else {
+		while (!isDone) {
+			[meta, isDone] = computerMove(meta, model)
+			Environment.pb = meta.board.score
+		}
+
+		// Log that we have reached an end
+		Environment.stats()
+	}
+
+	return [model, meta]
+
+}
+
 
 const computerMove = (meta, model) => {
 
