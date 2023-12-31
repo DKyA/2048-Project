@@ -68,7 +68,14 @@ export class Model {
 
 	selfUpdate(variance) {
 		if (variance === 0) return;
-		console.log("Hello.")
+
+		// Learn by going through all nodes:
+		this.layers.forEach(layer => {
+			layer.nodes.forEach(node => {
+				node.learn(variance)
+			})
+		})
+
 	}
 
 	get lastLayer() {

@@ -52,6 +52,11 @@ export class Node {
 
 	}
 
+	learn(variance) {
+		this.bias = normRand(this.bias, variance)
+		this.connectionWeights = this.connectionWeights.map(weight => normRand(weight, variance))
+	}
+
 	set initWeights(prevLayerBreadth) {
 
 		this.prevLayerBreadth = prevLayerBreadth;

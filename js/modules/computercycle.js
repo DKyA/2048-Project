@@ -9,8 +9,27 @@ export const computerGame = async () => {
 
 	let models = new Array(params.meta.length).fill(new Model());
 
-	models = simulateGeneration(models)
-	reinforcementLearning(models)
+	params.meta.forEach(meta => meta.indScores = [])
+
+	// Batch learning:
+	const batchSize = 3
+
+	// Max games:
+	for (let i = 0; i < 100; i++) {
+		for (let j = 0; j < batchSize; j++) {
+			models = simulateGeneration(models);
+		}
+
+		params.meta.forEach(meta => {
+			meta.finalScore = meta.indScores.reduce((total, score) => total + score, 0) / batchSize
+			meta.indScores = []
+		})
+
+		console.log(...params.meta.map(m => [m.game.board.score, m.game.board.maxTile]))
+
+		reinforcementLearning(models, i)
+
+	}
 
 }
 
@@ -23,12 +42,17 @@ const reinforcementLearning = models => {
 	metas.forEach(meta => meta.varianceCoefficient = (metas[0].finalScore / meta.finalScore) - 1)
 
 	// Time to update models.
-	metas.forEach(meta => {
-		const model = models[meta.i]
-		model.selfUpdate(meta.varianceCoefficient)
-		// traverse & update. EX is oldVal, variance is sigma. NormRand employment
-		
-	})
+	metas.forEach((meta, i) => {
+
+		if (i < 0.9 * metas.length) {
+			// traverse & update. EX is oldVal, variance is sigma. NormRand employment
+			models[meta.i].selfUpdate(meta.varianceCoefficient)
+			return
+		}
+		models[meta.i] = new Model()
+	});
+
+	return models
 
 }
 
@@ -85,11 +109,14 @@ const playGame = (model, meta) => {
 		Environment.stats()
 
 		// Calculate final score
-		const scoreNorm = Math.log(meta.maxScore + 1)
-		const maxTileNorm = Math.log2(meta.maxTile + 1)
+		const scoreNorm = Math.log(meta.game.board.score + 1)
+		const maxTileNorm = Math.log2(meta.game.board.maxTile + 1)
+
 		const weights = [.8, .2]
+		// Weighted avg
 		const finalScore = (weights[0] * scoreNorm + weights[1] * maxTileNorm) / 2
-		meta.finalScore = finalScore
+
+		meta.indScores.push(finalScore)
 
 	}
 
